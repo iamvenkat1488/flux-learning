@@ -23,12 +23,12 @@ jobs:
 
        - name: Update TFVars
          run: |
-           sed -i 's/ALB_URL=.*/ALB_URL=new_url/' /local/path/prd-gccs.tfvars
-           sed -i 's/ALB_URL=.*/ALB_URL=new_url/' /local/path/prd-gccs-cspt.tfvars
-           sed -i 's/ALB_URL=.*/ALB_URL=new_url/' /local/path/livesite.tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' cluster1-url.tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' cluster2-tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' cluster3-tfvars
 
        - name: Commit and Push Changes
          run: |
-           git add /local/path/prd-gccs.tfvars /local/path/prd-gccs-cspt.tfvars /local/path/livesite.tfvars
+           git add cluster1-url.tfvars cluster2-url.tfvars cluster3-url.tfvars
            git commit -m "update ALB_URL to new_url"
            git push origing update-tfvars-$ {{ github.run_number }}

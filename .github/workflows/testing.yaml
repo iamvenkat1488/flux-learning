@@ -1,1 +1,34 @@
+name: Update TFVars
 
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  update-tfvars:
+     runs-on: ubuntu-latest
+
+     steps:
+       - name: Checkout Repository
+         uses: actions/checkout@v2
+       - name: Setup Git
+         run: |
+           git config user.name "${{ github.actor }}"
+           git config user.email "${{ github.actor}} @users.noreply.github.com"
+
+       - name: Create Branch
+         run: |
+          git checkout -b update-tfvars-${{ github.run_number }}
+
+       - name: Update TFVars
+         run: |
+           sed -i 's/ALB_URL=.*/ALB_URL=new_url/' /local/path/prd-gccs.tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=new_url/' /local/path/prd-gccs-cspt.tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=new_url/' /local/path/livesite.tfvars
+
+       - name: Commit and Push Changes
+         run: |
+           git add /local/path/prd-gccs.tfvars /local/path/prd-gccs-cspt.tfvars /local/path/livesite.tfvars
+           git commit -m "update ALB_URL to new_url"
+           git push origing update-tfvars-$ {{ github.run_number }}

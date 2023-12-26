@@ -23,12 +23,12 @@ jobs:
 
        - name: Update TFVars
          run: |
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' https://github.com/iamvenkat1488/flux-learning/blob/533cbc11b63a9df94e8381195db3069b64526c73/Cluster3-tfvars
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' https://github.com/iamvenkat1488/flux-learning/blob/533cbc11b63a9df94e8381195db3069b64526c73/Cluster2-tfvars
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' https://github.com/iamvenkat1488/flux-learning/blob/533cbc11b63a9df94e8381195db3069b64526c73/Cluster1-tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' **/flux-learning/Cluster1-tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' **/flux-learning/Cluster2-tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' **/flux-learning/Cluster3-tfvars
 
        - name: Commit and Push Changes
          run: |
-           git add https://github.com/iamvenkat1488/flux-learning/blob/main/Cluster1-tfvars https://github.com/iamvenkat1488/flux-learning/blob/main/cluster2-url.tfvars https://github.com/iamvenkat1488/flux-learning/blob/main/cluster3-url.tfvars
+           git add **/flux-learning/Cluster1-tfvars **/flux-learning/Cluster2-tfvars **/flux-learning/Cluster3-tfvars
            git commit -m "update ALB_URL to new_url"
            git push origing update-tfvars-$ {{ github.run_number }}

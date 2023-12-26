@@ -23,10 +23,10 @@ jobs:
 
        - name: Update TFVars
          run: |
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' flux-learning/**/*-tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' flux-learning/**/*.tfvars
 
        - name: Commit and Push Changes
          run: |
-           git add **/flux-learning/Cluster1-tfvars **/flux-learning/Cluster2-tfvars **/flux-learning/Cluster3-tfvars
+           git add flux-learning/**/*.tfvars
            git commit -m "update ALB_URL to new_url"
            git push origing update-tfvars-$ {{ github.run_number }}

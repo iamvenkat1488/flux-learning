@@ -23,9 +23,7 @@ jobs:
 
        - name: Update TFVars
          run: |
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' **/flux-learning/Cluster1-tfvars
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' **/flux-learning/Cluster2-tfvars
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' **/flux-learning/Cluster3-tfvars
+           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' flux-learning/**/*-tfvars
 
        - name: Commit and Push Changes
          run: |

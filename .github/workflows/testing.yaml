@@ -1,30 +1,31 @@
-name: Update TFVars
+name: Replace ALB URL
 
-on: 
-  workflow_dispatch:
+on: [push]
 
 jobs:
-  update-tfvars:
-     runs-on: ubuntu-latest
+ replace_alb_url:
+    runs-on: ubuntu-latest
 
-     steps:
-       - name: Checkout Repository
-         uses: actions/checkout@v2
-       - name: Setup Git
-         run: |
-           git config user.name "${{ github.actor }}"
-           git config user.email "${{ github.actor}} @users.noreply.github.com"
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-       - name: Create Branch
-         run: |
-          git checkout -b update-tfvars-${{ github.run_number }}
+    - name: Replace ALB URL
+      run: |
+        ALB_URL_A="blue.url"
+        ALB_URL_B="green.url"
 
-       - name: Update TFVars
-         run: |
-           sed -i 's/ALB_URL=.*/ALB_URL=second_url/' flux-learning/**/*.tfvars
+        sed -i "s|$ALB_URL_A|$ALB_URL_B|g" config.file
 
-       - name: Commit and Push Changes
-         run: |
-           git add flux-learning/**/*.tfvars
-           git commit -m "update ALB_URL to new_url"
-           git push origing update-tfvars-$ {{ github.run_number }}
+    - name: Commit changes
+      run: |
+        git config --local user.email "venkatesh.sarivisetty015@github.com"
+        git config --local user.name "venkatesh.sarivisetty"
+        git add config.file
+        git commit -m "Replace ALB URL"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}

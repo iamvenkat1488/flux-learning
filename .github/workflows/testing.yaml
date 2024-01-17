@@ -63,8 +63,21 @@ jobs:
     
     - name: Push changes
       run: git push origin ${{ env.NEW_BRANCH_NAME }}
-      env:
-        GH_Token: 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
+      # env:
+      #   GH_Token: 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
+
+    - name: Merge changes to the new branch
+      run: |
+        if [ "$(git rev-parse ${{ env.NEW_BRANCH_NAME }}")" != "$(git rev-parse main)"]; then
+          git checkout main
+          git merge ${{ env.NEW_BRANCH_NAME }}
+          git push origin main
+        else
+          echo "No Need to merge. The new branch already merged with the main branch"
+        fi
+        
+    - name: Welcome back message
+      run: echo "Welcome back, ${{ github.actor }}! Automated Git workflow completed!
 
 
 

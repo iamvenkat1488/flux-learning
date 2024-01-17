@@ -63,10 +63,11 @@ jobs:
     
     - name: Push changes
       run: |
-        git pull origin
+        git pull origin main
         git push origin ${{ env.NEW_BRANCH_NAME }}
       env:
-        GH_Token: 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
+        #GH_Token: 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
+        GH_Token: ${{ secrets.GH_TOKEN }}
 
     - name: Merge changes to the new branch
       run: |
@@ -81,3 +82,7 @@ jobs:
         
     - name: Welcome back message
       run: echo "Welcome back, ${{ github.actor }}! Automated Git workflow completed!"
+
+
+
+

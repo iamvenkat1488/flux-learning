@@ -1,7 +1,7 @@
 name: Automate Git Actions
 
 on: 
-  workflow_dispatch:
+  push:
 
     inputs:
       repository_name:
@@ -78,12 +78,4 @@ jobs:
         fi
         
     - name: Welcome back message
-      run: echo "Welcome back, ${{ github.actor }}! Automated Git workflow completed!
-
-
-
-
-
-
-
-
+      run: echo "Welcome back, ${{ github.actor }}! Automated Git workflow completed!"

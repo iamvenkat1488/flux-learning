@@ -70,6 +70,7 @@ jobs:
       run: |
         if [ "$(git rev-parse ${{ env.NEW_BRANCH_NAME }}")" != "$(git rev-parse main)"]; then
           git checkout main
+          git pull origin main # Pull changes from main branch
           git merge ${{ env.NEW_BRANCH_NAME }}
           git push origin main
         else

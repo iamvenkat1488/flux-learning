@@ -62,7 +62,9 @@ jobs:
         fi
     
     - name: Push changes
-      run: git push origin ${{ env.NEW_BRANCH_NAME }}
+      run: |
+        git pull origin
+        git push origin ${{ env.NEW_BRANCH_NAME }}
       env:
         GH_Token: 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
 

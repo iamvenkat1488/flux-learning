@@ -44,7 +44,10 @@ jobs:
       run: git checkout -b ${{ env.NEW_BRANCH_NAME}}
     
     - name: Add changes to staging area
-      run: echo "Testing Changes" >> jayesh.txt # Adding for testing
+      run: |
+        echo "Testing new Changes" >> jayesh.txt # Adding for testing
+        sed -i 's/Testing/Production/g' jayesh.txt
+          
     
     # Do the required changes
     

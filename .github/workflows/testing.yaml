@@ -45,8 +45,8 @@ jobs:
     
     - name: Add changes to staging area
       run: |
-        echo "Testing new Changes" >> jayesh.txt # Adding for testing
-        sed -i 's/Testing/Production/g' jayesh.txt
+        #echo "Testing new Changes" >> jayesh.txt # Adding for testing
+        sed -i 's/Production/Testing/g' jayesh.txt
           
     
     # Do the required changes

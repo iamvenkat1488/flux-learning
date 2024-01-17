@@ -73,7 +73,7 @@ jobs:
 
     - name: Merge changes to the new branch
       run: |
-        if [ "$(git rev-parse ${{ env.NEW_BRANCH_NAME }}")" != "$(git rev-parse main)"]; then
+        #if [ "$(git rev-parse ${{ env.NEW_BRANCH_NAME }}")" != "$(git rev-parse main)"]; then
           git checkout main
           git pull origin main # Pull changes from main branch
           git merge ${{ env.NEW_BRANCH_NAME }}

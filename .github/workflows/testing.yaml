@@ -1,31 +1,75 @@
-name: Replace ALB URL
+name: Automate Git Actions
 
-on: [push]
+on: 
+  workflow_dispatch:
 
+    inputs:
+      repository_name:
+        description: "The name of the GitHub repository"
+        required: true
+      new_branch_name:
+        description: "The name for the new branch"
+        required: true
+      commit_message:
+        description: 'Commit Message'
+        required: true
+      user_email:
+        description: 'User mail'
+        required: true
+      user_name:
+        description: 'User name'
+        required: true
+    
 jobs:
- replace_alb_url:
+  automate:
     runs-on: ubuntu-latest
-
+  
+    env:
+      REPOSITORY_NAME: ${{ github.event.inputs.repository_name}}
+      NEW_BRANCH_NAME: ${{ github.event.inputs.new_branch_name }}
+      COMMIT_MESSAGE: ${{ github.event.inputs.commit_message }}
+      USER_EMAIL: ${{ github.event.inputs.user_email }}
+      USER_NAME: ${{ github.event.inputs.user_name }}
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v2
 
-    - name: Replace ALB URL
+    - name: Configure Git
       run: |
-        ALB_URL_A="blue.url"
-        ALB_URL_B="green.url"
+        git config user.email "${{ env.USER_EMAIL}}"
+        git config user.name "${{ env.USER_NAME }}"
+        git config push.default current
 
-        sed -i "s|$ALB_URL_A|$ALB_URL_B|g" config.file
-
-    - name: Commit changes
+    - name: Create a new Branch and switch
+      run: git checkout -b ${{ env.NEW_BRANCH_NAME}}
+    
+    - name: Add changes to staging area
+      run: echo "Testing Changes" >> test.txt # Adding for testing
+    
+    # Do the required changes
+    - name: Commit the change
       run: |
-        git config --local user.email "venkatesh.sarivisetty015@github.com"
-        git config --local user.name "venkatesh.sarivisetty"
-        git add config.file
-        git commit -m "Replace ALB URL"
-
+        git add .
+        git commit -m "${{ env.COMMIT_MESSAGE}}"
+    
+    - name: Check if there are no uncommitted changes
+      run: |
+        if [[ -z $(git status --porcelain) ]]; then
+          echo "No uncommitted changes."
+        else
+          echo "Uncommitted changes found." >&2
+          exit 1
+        fi
+    
     - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+      run: git push origin ${{ env.NEW_BRANCH_NAME }}
+      env:
+        GH_Token: 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
+
+
+
+
+
+
+
+
